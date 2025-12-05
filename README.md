@@ -30,6 +30,7 @@ Only one of the below is required:
 
 
 # Getting Started
+See [templates](https://github.com/kryoseu/whoops-ui/tree/main/templates) for Docker and Kubernetes examples. 
 
 ## With Docker
 Using Docker compose:
