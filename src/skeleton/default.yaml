@@ -1,0 +1,191 @@
+- id: "001"
+  name: Cycles
+  charts:
+    - id: "100"
+      type: single
+      metrics:
+        Cycles:
+          - key: strain
+    - id: "101"
+      type: single
+      metrics:
+        Cycles:
+          - key: avg_heart_rate
+    - id: "102"
+      type: biaxial
+      metrics:
+        Cycles:
+          - key: strain
+          - key: max_heart_rate
+    - id: "103"
+      type: biaxial
+      metrics:
+        Cycles:
+          - key: strain
+          - key: kilojoule
+- id: "002"
+  name: Sleep
+  charts:
+    - id: "200"
+      type: single
+      metrics:
+        Sleep:
+          - key: baseline_hr
+      settings:
+        leftYAxisUnit: " hr"
+    - id: "201"
+      type: single
+      metrics:
+        Sleep:
+          - key: total_rem_sleep_hr
+      settings:
+        leftYAxisUnit: " hr"
+    - id: "202"
+      type: single
+      metrics:
+        Sleep:
+          - key: sleep_performance_pct
+      settings:
+        leftYAxisUnit: "%"
+    - id: "203"
+      type: single
+      metrics:
+        Sleep:
+          - key: sleep_consistency_pct
+      settings:
+        leftYAxisUnit: "%"
+    - id: "204"
+      type: biaxial
+      metrics:
+        Sleep:
+          - key: total_in_bed_time_hr
+          - key: sleep_consistency_pct
+      settings:
+        leftYAxisUnit: " hr"
+        rightYAxisUnit: "%"
+    - id: "205"
+      type: biaxial
+      metrics:
+        Sleep:
+          - key: sleep_dept_hr
+          - key: sleep_needed_from_strain_hr
+      settings:
+        leftYAxisUnit: " hr"
+        rightYAxisDisabled: true
+    - id: "206"
+      type: biaxial
+      metrics:
+        Sleep:
+          - key: sleep_cycle_count
+          - key: disturbance_count
+      settings:
+        rightYAxisDisabled: true
+    - id: "207"
+      type: stacked_bar
+      metrics:
+        Sleep:
+          - key: total_in_bed_time_hr
+          - key: total_awake_time_hr
+      settings:
+        leftYAxisUnit: " hr"
+        rightYAxisDisabled: true
+    - id: "208"
+      type: single
+      metrics:
+        Sleep:
+          - key: respiratory_rate
+- id: "003"
+  name: Recovery
+  charts:
+    - id: "300"
+      type: single
+      metrics:
+        Recovery:
+          - key: recovery_score
+      settings:
+        leftYAxisUnit: "%"
+    - id: "301"
+      type: biaxial
+      metrics:
+        Recovery:
+          - key: hrv_rmssd_ms
+          - key: resting_heart_rate
+      settings:
+        leftYAxisUnit: " ms"
+    - id: "302"
+      type: single
+      metrics:
+        Recovery:
+          - key: spo2_pct
+      settings:
+        leftYAxisUnit: "%"
+        leftYAxisMin: 85
+    - id: "303"
+      type: single
+      metrics:
+        Recovery:
+          - key: skin_temp_c
+      settings:
+        leftYAxisUnit: "°C"
+        leftYAxisMin: 32
+- id: "004"
+  name: Workouts
+  charts:
+    - id: "400"
+      type: biaxial
+      metrics:
+        Workouts:
+          - key: strain
+          - key: kilojoule
+    - id: "401"
+      type: biaxial
+      metrics:
+        Workouts:
+          - key: strain
+          - key: max_heart_rate
+    - id: "402"
+      type: single
+      metrics:
+        Workouts:
+          - key: distance_km
+      settings:
+        leftYAxisUnit: " km"
+    - id: "403"
+      type: single
+      metrics:
+        Workouts:
+          - key: altitude_gain_meter
+      settings:
+        leftYAxisUnit: " m"
+    - id: "404"
+      type: stacked_bar
+      metrics:
+        Workouts:
+          - key: zero
+          - key: one
+          - key: two
+          - key: three
+          - key: four
+          - key: five
+      settings:
+        leftYAxisUnit: " hrs"
+        rightYAxisDisabled: true
+    - id: "405"
+      type: pie
+      metrics:
+        Workouts:
+          - key: zero
+          - key: one
+          - key: two
+          - key: three
+          - key: four
+          - key: five
+      settings:
+        aggregation: "sum"
+    - id: "406"
+      type: pie
+      metrics:
+        Workouts:
+          - key: sport_name
+      settings:
+        aggregation: "count"
