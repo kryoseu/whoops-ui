@@ -15,6 +15,14 @@ export async function GET(req, { params }) {
   }
 
   const dashboards = readConfig(config);
+
+  if (!dashboards) {
+    return NextResponse.json(
+      { message: "Failed to read config" },
+      { status: 500 },
+    );
+  }
+
   const dashboard = dashboards.find((dashboard) => dashboard.id === id);
 
   if (!dashboard) {
@@ -38,16 +46,24 @@ export async function PUT(req, { params }) {
     return NextResponse.json({ message: "Invalid config" }, { status: 400 });
   }
 
-  const dashboardsConfig = readConfig(config);
-  const dashboardIndex = dashboardsConfig.findIndex((d) => d.id === id);
+  const dashboards = readConfig(config);
+
+  if (!dashboards) {
+    return NextResponse.json(
+      { message: "Failed to read config" },
+      { status: 500 },
+    );
+  }
+
+  const dashboardIndex = dashboards.findIndex((d) => d.id === id);
 
   if (dashboardIndex === -1) {
     return NextResponse.json({ message: "Not found" }, { status: 404 });
   }
 
-  dashboardsConfig[dashboardIndex].name = name;
+  dashboards[dashboardIndex].name = name;
 
-  if (!writeConfig(config, dashboardsConfig)) {
+  if (!writeConfig(config, dashboards)) {
     return NextResponse.json(
       { message: "Failed to rename dashboard" },
       { status: 500 },
@@ -70,16 +86,24 @@ export async function DELETE(req, { params }) {
     return NextResponse.json({ message: "Invalid config" }, { status: 400 });
   }
 
-  let dashboardsConfig = readConfig(config);
-  const dashboardIndex = dashboardsConfig.findIndex((d) => d.id === id);
+  let dashboards = readConfig(config);
+
+  if (!dashboards) {
+    return NextResponse.json(
+      { message: "Failed to read config" },
+      { status: 500 },
+    );
+  }
+
+  const dashboardIndex = dashboards.findIndex((d) => d.id === id);
 
   if (dashboardIndex === -1) {
     return NextResponse.json({ message: "Not found" }, { status: 404 });
   }
 
-  dashboardsConfig.splice(dashboardIndex, 1);
+  dashboards.splice(dashboardIndex, 1);
 
-  if (!writeConfig(config, dashboardsConfig)) {
+  if (!writeConfig(config, dashboards)) {
     return NextResponse.json(
       { message: "Failed to delete dashboard" },
       { status: 500 },

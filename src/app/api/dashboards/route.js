@@ -13,7 +13,7 @@ export function GET(req) {
 
   if (!dashboards) {
     return NextResponse.json(
-      { error: "Failed to load dashboard configuration" },
+      { message: "Failed to read config" },
       { status: 500 },
     );
   }
