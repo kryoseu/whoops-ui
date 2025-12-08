@@ -46,7 +46,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      WHOOPS_URL: "https://localhost:5000"                            # required if using Whoops as data source
+      WHOOPS_URL: "http://localhost:5000"                            # required if using Whoops as data source
       WHOOP_CLIENT_ID: ""                                             # required if using Whoop as data source
       WHOOP_CLIENT_SECRET: ""                                         # required if using Whoop as data source
       WHOOP_REDIRECT_URI: "http://localhost:3000/api/whoop/callback"  # required if using Whoop as data source
@@ -58,7 +58,7 @@ or Docker run:
 
 ```bash
 docker run --name whoops-ui \
-  -e WHOOPS_URL="https://localhost:5000" \
+  -e WHOOPS_URL="http://localhost:5000" \
   -e WHOOP_CLIENT_ID="" \
   -e WHOOP_CLIENT_SECRET="" \
   -e WHOOP_REDIRECT_URI="http://localhost:3000/api/whoop/callback" \
