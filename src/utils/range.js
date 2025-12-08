@@ -11,7 +11,7 @@ export function parseRangeToDays(range) {
     return 7;
   }
 
-  const match = str.match(/^(\d+)([dmy])$/);
+  const match = range.match(/^(\d+)([dmy])$/);
 
   let value = parseInt(match[1], 10);
 

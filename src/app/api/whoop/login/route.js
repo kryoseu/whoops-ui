@@ -32,7 +32,7 @@ export async function GET(req) {
 
   const response = NextResponse.redirect(authUrl);
 
-  response.cookies.set("data_source", "whoops", {
+  response.cookies.set("data_source", "whoop", {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",
