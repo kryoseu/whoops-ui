@@ -19,10 +19,8 @@ export default function MetricsSelector({
       groupBy={(option) => option.section}
       disableCloseOnSelect
       onChange={(_, list) => onChange(list)}
-      getOptionDisabled={(option) =>
-        disabledKeys.includes(option.metricConfig.key)
-      }
-      getOptionLabel={(opt) => opt.metricConfig.name}
+      getOptionDisabled={(option) => disabledKeys.includes(option.key)}
+      getOptionLabel={(opt) => opt.name}
       renderOption={(props, option, { selected }) => {
         const { key, ...rest } = props;
         return (
@@ -33,7 +31,7 @@ export default function MetricsSelector({
               checked={selected}
               sx={{ mr: 1 }}
             />
-            {option.metricConfig.name}
+            {option.name}
           </li>
         );
       }}

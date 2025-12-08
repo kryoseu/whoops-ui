@@ -17,7 +17,6 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import { clearDashboard } from "@/utils/services/dashboard";
 
 export default function RightDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -98,7 +97,8 @@ export default function RightDrawer() {
           Rename
         </MenuItem>
         <MenuItem
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             del(contextItem);
             handleClose();
           }}

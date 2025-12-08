@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { fetchAPIs } from "../services/fetch-apis.js";
 import { MenuSettingsContext } from "../contexts/menu-settings.jsx";
 import { DashboardSettingsContext } from "../contexts/dashboard-settings.jsx";
-import { chartBuilder } from "../charts/builder.jsx";
+import { buildCharts } from "../charts/builder.jsx";
 import { getDashboard } from "../services/dashboard.js";
 import { intoChartConfigs } from "../config/dashboards.js";
 
@@ -32,7 +32,7 @@ export function useChartBuilder() {
       try {
         const dataMap = await fetchAPIs(selectedSection, range);
 
-        const nextCharts = chartBuilder(dataMap, dashboardCtx.chartConfigs);
+        const nextCharts = buildCharts(dataMap, dashboardCtx.chartConfigs);
 
         dashboardCtx.setCharts(nextCharts);
       } catch (err) {

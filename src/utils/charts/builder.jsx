@@ -2,7 +2,7 @@
 
 import MetricChart from "@/components/metric-chart";
 
-export function chartBuilder(dataMap, chartConfigs) {
+export function buildCharts(dataMap, chartConfigs) {
   const metricCharts = [];
 
   const normalize = (dateStr) => {
@@ -27,13 +27,12 @@ export function chartBuilder(dataMap, chartConfigs) {
             rowMap[dateKey] = { x: dateKey };
           }
 
-          const extracted = metric.metricConfig.extractor(record);
+          const extracted = metric.extractor(record);
 
-          rowMap[dateKey][metric.metricConfig.key] = extracted;
+          rowMap[dateKey][metric.key] = extracted;
 
-          rowMap[dateKey][metric.metricConfig.key] = metric.metricConfig
-            .valuesTransform
-            ? metric.metricConfig.valuesTransform(extracted)
+          rowMap[dateKey][metric.key] = metric.valuesTransform
+            ? metric.valuesTransform(extracted)
             : extracted;
         });
       });

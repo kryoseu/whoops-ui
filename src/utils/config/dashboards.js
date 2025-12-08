@@ -30,10 +30,7 @@ export function validateDashboardConfig(dashboardConfig) {
       return false;
     }
 
-    if (
-      chart.type === "single" &&
-      Object.keys(chart.metrics).length !== 1
-    ) {
+    if (chart.type === "single" && Object.keys(chart.metrics).length !== 1) {
       console.error("Single charts must have exactly one metric.");
       return false;
     }
@@ -56,46 +53,44 @@ const isValueEmptyString = (str) => {
   return !str || str.trim() === "";
 };
 
+// Convert dashboard config into full chart config.
+// Chart configs have all information needed to render charts.
+// Dashboard configs only have metric keys.
+// Chart configs include id, type, settings and full metric configurations.
+// See sections.js for metric configurations.
+// Metrics are grouped by section, which is the API needed to fetch the data.
 export function intoChartConfigs(dashboard) {
   const sectionSet = new Set();
+
   if (!dashboard?.charts) return dashboard;
 
-  const chartConfigs = [];
-
-  dashboard.charts.forEach((chart) => {
+  const chartConfigs = dashboard.charts.map((chart) => {
     const metricMap = {};
-    const chartConfig = {
+
+    Object.entries(chart.metrics || {}).forEach(([sectionName, metricList]) => {
+      sectionSet.add(sectionName);
+
+      metricList.forEach((metric) => {
+        const config = getMetricConfigByKey(sectionName, metric.key);
+        if (config) {
+          metricMap[sectionName] ??= [];
+          metricMap[sectionName].push(config);
+        }
+      });
+    });
+
+    return {
       id: chart.id,
       type: chart.type,
       settings: chart.settings || {},
+      metrics: metricMap,
     };
-
-    Object.entries(chart.metrics).forEach(([sectionName, metricList]) => {
-      sectionSet.add(sectionName);
-
-      metricList
-        .map((metric) => {
-          const config = getMetricConfigByKey(sectionName, metric.key);
-          if (config) {
-            if (!metricMap[sectionName]) {
-              metricMap[sectionName] = [];
-            }
-            metricMap[sectionName].push({ metricConfig: config });
-          }
-        })
-        .filter(Boolean);
-    });
-
-    chartConfig.metrics = metricMap;
-    chartConfigs.push(chartConfig);
   });
 
-  return { sections: sectionSet, charts: chartConfigs };
+  return { sections: Array.from(sectionSet), charts: chartConfigs };
 }
 
 function getMetricConfigByKey(sectionName, metricKey) {
   const section = sections[sectionName];
-  if (!section) return null;
-
-  return section.metrics[metricKey] || null;
+  return section?.metrics?.[metricKey] ?? null;
 }

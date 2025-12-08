@@ -19,8 +19,10 @@ export function createLeftDrawerHandlers(ctx) {
   } = ctx;
 
   return async function handleLeftDrawerClick(item) {
+    setShowPlaceHolderChart(false);
+    setLoading(true);
+
     if (item.text === "Home") {
-      setLoading(true);
       window.location.href = "/";
       return;
     }
@@ -35,8 +37,8 @@ export function createLeftDrawerHandlers(ctx) {
 
     setChartConfigs(chartConfigs.charts);
     setSelectedSection([item.text]);
-    setShowPlaceHolderChart(false);
     setUnsavedCustomCharts([]);
+    setLoading(false);
     setOpen(false);
   };
 }

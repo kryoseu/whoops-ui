@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Cookies from "js-cookie";
 import { useContext, useState, useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { deepPurple, grey } from "@mui/material/colors";
@@ -24,6 +25,14 @@ export default function Dashboard() {
 
   const dashboardCtx = useContext(DashboardSettingsContext);
 
+  useEffect(() => {
+    const sessionDataSource = Cookies.get("data_source");
+    if (sessionDataSource) {
+      dashboardCtx.setDataSource(sessionDataSource);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // load dashboards on mount
   useEffect(() => {
     const loadDashboards = async () => {
@@ -35,6 +44,7 @@ export default function Dashboard() {
       }
     };
     loadDashboards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSaveDashboard = async () => {
@@ -54,7 +64,7 @@ export default function Dashboard() {
           metrics: Object.fromEntries(
             Object.entries(metrics).map(([section, metricArray]) => [
               section,
-              metricArray.map((m) => ({ key: m.metricConfig.key })),
+              metricArray.map((m) => ({ key: m.key })),
             ]),
           ),
           settings,
@@ -74,7 +84,9 @@ export default function Dashboard() {
 
   return (
     <Box>
-      {dashboardCtx.error && <ErrorAlert error={dashboardCtx.error} onClose={() => setError(null)} />}
+      {dashboardCtx.error && (
+        <ErrorAlert error={dashboardCtx.error} onClose={() => setError(null)} />
+      )}
       <ChartSettingsProvider>
         <LeftDrawer />
         <RightDrawer />
@@ -99,7 +111,10 @@ export default function Dashboard() {
             <ChartGrid
               charts={
                 dashboardCtx.showPlaceHolderChart
-                  ? [...dashboardCtx.charts, <ChartPlaceHolder key="placeholder" />]
+                  ? [
+                      ...dashboardCtx.charts,
+                      <ChartPlaceHolder key="placeholder" />,
+                    ]
                   : dashboardCtx.charts
               }
             />

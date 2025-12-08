@@ -17,14 +17,16 @@ export function useAddChartFormControl(onSave) {
   });
 
   const { setSelectedSection } = useContext(MenuSettingsContext);
-  const { setUnsavedCustomCharts, setChartConfigs } = useContext(DashboardSettingsContext,);
+  const { setUnsavedCustomCharts, setChartConfigs } = useContext(
+    DashboardSettingsContext,
+  );
 
   // Flatten all metrics for selection
   const allMetrics = useMemo(() => {
     return Object.entries(sections).flatMap(([section, values]) =>
       Object.values(values.metrics).map((metricConfig) => ({
         section,
-        metricConfig,
+        ...metricConfig,
       })),
     );
   }, []);
@@ -57,15 +59,12 @@ export function useAddChartFormControl(onSave) {
     let disabled = [];
     if (userChartType === "single" && selected.length === 1) {
       disabled = allMetrics
-        .filter((m) => m.metricConfig.key !== selected[0].metricConfig.key)
-        .map((m) => m.metricConfig.key);
+        .filter((m) => m.key !== selected[0].key)
+        .map((m) => m.key);
     } else if (userChartType === "biaxial" && selected.length === 2) {
       disabled = allMetrics
-        .filter(
-          (m) =>
-            !selected.some((s) => s.metricConfig.key === m.metricConfig.key),
-        )
-        .map((m) => m.metricConfig.key);
+        .filter((m) => !selected.some((s) => s.key === m.key))
+        .map((m) => m.key);
     }
 
     setCheckedMetrics(selected);
