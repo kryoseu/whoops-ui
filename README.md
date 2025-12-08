@@ -12,6 +12,10 @@ You can choose to pull data directly from Whoop or from your self-hosted [Whoops
 
 All your data stays private.
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4f06e7e0-5e7f-485f-b953-602bcdf53df0" width="700">
+</p>
+
 ## Features:
 - Visualize your Whoop metrics with interactive charts.
 - Create your own dashboards or use the pre-defined ones.
