@@ -3,7 +3,6 @@
 import { useState, useMemo, useContext } from "react";
 import { sections } from "../sections.js";
 import { DashboardSettingsContext } from "../contexts/dashboard-settings";
-import { MenuSettingsContext } from "../contexts/menu-settings";
 
 export function useAddChartFormControl(onSave) {
   const [error, setError] = useState(null);
@@ -16,7 +15,6 @@ export function useAddChartFormControl(onSave) {
     right: { max: "", unit: "", disabled: false },
   });
 
-  const { setSelectedSection } = useContext(MenuSettingsContext);
   const { setUnsavedCustomCharts, setChartConfigs } = useContext(
     DashboardSettingsContext,
   );
@@ -107,17 +105,10 @@ export function useAddChartFormControl(onSave) {
       userChartType === "pie" ? pieChartAggType : null,
     );
 
-    // Update unsaved charts and set chart builder to custom
     setUnsavedCustomCharts((prev) => {
       const updated = [...prev, chartConfig];
       setChartConfigs(updated);
       return updated;
-    });
-
-    // Trigger required API sections to fetch
-    setSelectedSection((prev) => {
-      if (prev === null) return metricAPISet;
-      return Array.from(new Set([...prev, ...metricAPISet]));
     });
 
     onSave?.();

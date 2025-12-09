@@ -29,17 +29,17 @@ export default function MetricChart({ data, chartConfig, chartSeries }) {
 
   series = records
     ? records.map((record) => {
-      const result = { x: record.created_at };
+        const result = { x: record.created_at };
 
-      metrics.forEach((metric) => {
-        const extracted = metric?.extractor(record);
-        result[metric?.key] = metric?.valuesTransform
-          ? metric.valuesTransform(extracted)
-          : extracted;
-      });
+        metrics.forEach((metric) => {
+          const extracted = metric?.extractor(record);
+          result[metric?.key] = metric?.valuesTransform
+            ? metric.valuesTransform(extracted)
+            : extracted;
+        });
 
-      return result;
-    })
+        return result;
+      })
     : [];
 
   return <ChartComponent data={series} chartSettings={settings} />;

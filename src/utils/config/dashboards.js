@@ -94,3 +94,18 @@ function getMetricConfigByKey(sectionName, metricKey) {
   const section = sections[sectionName];
   return section?.metrics?.[metricKey] ?? null;
 }
+
+// Get list of APIs needed to fetch data for the given chartConfigs.
+export function getAPIsNeededForChartConfigs(chartConfigs) {
+  const apis = new Set();
+
+  if (!chartConfigs) return Array.from(apis);
+
+  chartConfigs.forEach((config) => {
+    Object.keys(config.metrics || {}).forEach((api) => {
+      apis.add(api);
+    });
+  });
+
+  return Array.from(apis);
+}

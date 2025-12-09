@@ -21,11 +21,10 @@ export default function LeftDrawer() {
     setOpen,
   });
 
-
   const items = buildLeftDrawerItems(dashboardCtx.defaultDashboards).map(
     (item) => ({
       ...item,
-      selected: menuCtx.selectedSection[0] === item.text,
+      selected: dashboardCtx.currentDashboard === item.id,
       onClick: handleClick,
     }),
   );

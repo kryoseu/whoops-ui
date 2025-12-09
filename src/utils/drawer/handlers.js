@@ -10,15 +10,16 @@ import {
 
 export function createLeftDrawerHandlers(ctx) {
   const {
-    setSelectedSection,
+    setCurrentDashboard,
     setShowPlaceHolderChart,
     setUnsavedCustomCharts,
     setLoading,
+    setMode,
     setOpen,
-    setChartConfigs,
   } = ctx;
 
   return async function handleLeftDrawerClick(item) {
+    setMode("default");
     setShowPlaceHolderChart(false);
     setLoading(true);
 
@@ -32,11 +33,7 @@ export function createLeftDrawerHandlers(ctx) {
       return;
     }
 
-    const dashboard = await getDashboard("default.yaml", item.id);
-    const chartConfigs = intoChartConfigs(dashboard);
-
-    setChartConfigs(chartConfigs.charts);
-    setSelectedSection([item.text]);
+    setCurrentDashboard(item.id);
     setUnsavedCustomCharts([]);
     setLoading(false);
     setOpen(false);
@@ -45,26 +42,20 @@ export function createLeftDrawerHandlers(ctx) {
 
 export function createRightDrawerHandlers(ctx) {
   const {
-    setSelectedSection,
-    setSelectedCustomDashboard,
+    setMode,
+    setCurrentDashboard,
     setCustomDashboards,
     setShowPlaceHolderChart,
-    setChartConfigs,
     setLoading,
     setOpen,
     setError,
   } = ctx;
 
   const click = async function handleRightDrawerClick(item) {
+    setMode("custom");
     setShowPlaceHolderChart(false);
     setLoading(true);
-
-    const dashboard = await getDashboard("custom.yaml", item.id);
-    const chartConfigs = intoChartConfigs(dashboard);
-
-    setSelectedCustomDashboard(item.id);
-    setChartConfigs(chartConfigs.charts);
-    setSelectedSection(chartConfigs.sections);
+    setCurrentDashboard(item.id);
     setLoading(false);
     setOpen(false);
   };

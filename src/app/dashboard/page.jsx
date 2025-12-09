@@ -75,6 +75,7 @@ export default function Dashboard() {
 
       // reload custom dasboards
       dashboardCtx.setCustomDashboards(await listDashboards("custom.yaml"));
+      dashboardCtx.setCurrentDashboard(dashboard.id);
       dashboardCtx.setUnsavedCustomCharts([]);
       dashboardCtx.setShowPlaceHolderChart(false);
     } catch (err) {
@@ -85,7 +86,10 @@ export default function Dashboard() {
   return (
     <Box>
       {dashboardCtx.error && (
-        <ErrorAlert error={dashboardCtx.error} onClose={() => setError(null)} />
+        <ErrorAlert
+          error={dashboardCtx.error}
+          onClose={() => dashboardCtx.setError(null)}
+        />
       )}
       <ChartSettingsProvider>
         <LeftDrawer />

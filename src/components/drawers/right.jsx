@@ -112,7 +112,7 @@ export default function RightDrawer() {
   const items = buildRightDrawerItems(dashboardCtx.customDashboards).map(
     (item) => ({
       ...item,
-      selected: menuCtx.selectedCustomDashboard === item.id,
+      selected: dashboardCtx.currentDashboard === item.id,
       onClick: click,
       contextMenu: ctxMenu,
       onRightClick: handleContextMenu,
@@ -124,7 +124,6 @@ export default function RightDrawer() {
       aria-label="add"
       style={{ position: "absolute", bottom: 20, alignSelf: "center" }}
       onClick={() => {
-        menuCtx.setSelectedSection([]);
         dashboardCtx.setCharts([]);
         dashboardCtx.setUnsavedCustomCharts([]);
         dashboardCtx.setShowPlaceHolderChart(true);

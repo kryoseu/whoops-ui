@@ -9,6 +9,8 @@ export function DashboardSettingsProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [dataSource, setDataSource] = useState("Unknown");
+  const [mode, setMode] = useState("default");
+  const [currentDashboard, setCurrentDashboard] = useState("001"); // Cycles dashboard
   const [showPlaceHolderChart, setShowPlaceHolderChart] = useState(false);
   const [unsavedCustomCharts, setUnsavedCustomCharts] = useState([]);
   const [defaultDashboards, setDefaultDashboards] = useState({});
@@ -36,6 +38,10 @@ export function DashboardSettingsProvider({ children }) {
         setDefaultDashboards,
         chartConfigs,
         setChartConfigs,
+        mode,
+        setMode,
+        currentDashboard,
+        setCurrentDashboard,
       }}
     >
       {children}
