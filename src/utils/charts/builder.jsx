@@ -5,55 +5,45 @@ import MetricChart from "@/components/metric-chart";
 export function buildCharts(dataMap, chartConfigs) {
   const metricCharts = [];
 
-  const normalize = (dateStr) => {
-    const d = new Date(dateStr);
-    const localDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    return localDate.toISOString();
-  };
-
   chartConfigs.forEach((config) => {
-    const rowMap = {};
+    const series = {};
+
     Object.keys(config.metrics).forEach((section) => {
       const data = dataMap[section];
+
       if (!data) return;
 
-      const metricArray = config.metrics[section];
+      const metrics = config.metrics[section];
 
-      metricArray.forEach((metric) => {
+      metrics.forEach((metric) => {
         data.records.forEach((record) => {
-          const dateKey = normalize(record.created_at);
+          const k = record.created_at.split("T")[0];
 
-          if (!rowMap[dateKey]) {
-            rowMap[dateKey] = { x: dateKey };
+          if (!series[k]) {
+            series[k] = { x: record.created_at };
           }
 
           const extracted = metric.extractor(record);
 
-          rowMap[dateKey][metric.key] = extracted;
-
-          rowMap[dateKey][metric.key] = metric.valuesTransform
+          series[k][metric.key] = metric.valuesTransform
             ? metric.valuesTransform(extracted)
             : extracted;
         });
       });
     });
 
-    const sortedArray = Object.values(rowMap).sort(
+    const sortedSeries = Object.values(series).sort(
       (a, b) => new Date(a.x) - new Date(b.x),
     );
 
     metricCharts.push(
       <MetricChart
-        key={config.id}
-        chartSeries={sortedArray}
-        chartConfig={{
-          type: config.type,
-          metrics: Object.values(config.metrics).flat(),
-          settings: config.settings,
-        }}
+        series={sortedSeries}
+        chartConfig={config}
       />,
     );
   });
 
   return metricCharts;
 }
+
