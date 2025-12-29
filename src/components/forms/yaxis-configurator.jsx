@@ -10,9 +10,8 @@ import {
 import React from "react";
 
 export default function YAxisConfigurator({
-  yAxis,
+  settings,
   onChange,
-  onToggle,
   disableFields,
 }) {
   return (
@@ -27,22 +26,22 @@ export default function YAxisConfigurator({
               disabled={disableFields}
               label="Max"
               type="number"
-              value={yAxis.left.max}
-              onChange={onChange("left", "max")}
+              value={settings.leftYAxisMax}
+              onChange={(e) => onChange("leftYAxisMax", e.target.value)}
               sx={{ mb: 2 }}
             />
             <TextField
               disabled={disableFields}
               label="Unit"
-              value={yAxis.left.unit}
-              onChange={onChange("left", "unit")}
+              value={settings.leftYAxisUnit}
+              onChange={(e) => onChange("leftYAxisUnit", e.target.value)}
             />
             <FormControlLabel
               control={
                 <Checkbox
                   disabled={disableFields}
-                  checked={yAxis.left.disabled}
-                  onChange={onToggle("left")}
+                  checked={settings.leftYAxisDisabled}
+                  onChange={(e) => onChange("leftYAxisDisabled", e.target.checked)}
                 />
               }
               label="Hide left Y axis"
@@ -58,23 +57,23 @@ export default function YAxisConfigurator({
               disabled={disableFields}
               label="Max"
               type="number"
-              value={yAxis.right.max}
-              onChange={onChange("right", "max")}
+              value={settings.rightYAxisMax}
+              onChange={(e) => onChange("rightYAxisMax", e.target.value)}
               sx={{ mb: 2 }}
             />
             <TextField
               disabled={disableFields}
               label="Unit"
-              value={yAxis.right.unit}
-              onChange={onChange("right", "unit")}
+              value={settings.rightYAxisUnit}
+              onChange={(e) => onChange("rightYAxisUnit", e.target.value)}
             />
           </FormGroup>
           <FormControlLabel
             control={
               <Checkbox
                 disabled={disableFields}
-                checked={yAxis.right.disabled}
-                onChange={onToggle("right")}
+                checked={settings.rightYAxisDisabled}
+                onChange={(e) => onChange("rightYAxisDisabled", e.target.checked)}
               />
             }
             label="Hide right Y axis"

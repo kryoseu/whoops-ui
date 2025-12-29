@@ -11,7 +11,13 @@ export default function BaseLineChart({
   axes,   // [{ id, position, unit, disabled, min, max }]
   series  // [{ key, axisId }]
 }) {
+
   const { tickDensity, showMark } = useContext(ChartSettingsContext);
+
+  const colors = useMemo(
+    () => series.map(() => getRandomColor()),
+    [series]
+  );
 
   if (!data || data.length === 0) {
     return <NoData />;
@@ -27,11 +33,6 @@ export default function BaseLineChart({
         : tickDensity === "sparse"
           ? 15
           : 30;
-
-  const colors = useMemo(
-    () => series.map(() => getRandomColor()),
-    [series.length]
-  );
 
   return (
     <LineChart

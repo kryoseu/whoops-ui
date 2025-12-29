@@ -7,6 +7,7 @@ export function buildCharts(dataMap, chartConfigs) {
 
   chartConfigs.forEach((config) => {
     const series = {};
+    const dayCounts = {};
 
     Object.keys(config.metrics).forEach((section) => {
       const data = dataMap[section];
@@ -15,17 +16,30 @@ export function buildCharts(dataMap, chartConfigs) {
 
       const metrics = config.metrics[section];
 
-      metrics.forEach((metric) => {
-        data.records.forEach((record) => {
-          const k = record.created_at.split("T")[0];
+      data.records.forEach((record) => {
+        if (!config.settings.includeNaps && record.nap === true) return;
 
-          if (!series[k]) {
-            series[k] = { x: record.created_at };
-          }
+        let day = record.created_at.split("T")[0];
 
+        if (!dayCounts[day]) {
+          dayCounts[day] = { nap: 0, main: 0 };
+        }
+
+        const type = record.nap ? "nap" : "main";
+        const index = dayCounts[day][type]++;
+
+        const key =
+          config.settings.includeNaps && record.nap
+            ? `${day}:${type}:${index}`
+            : day;
+
+        if (!series[key]) {
+          series[key] = { x: record.created_at };
+        }
+
+        metrics.forEach((metric) => {
           const extracted = metric.extractor(record);
-
-          series[k][metric.key] = metric.valuesTransform
+          series[key][metric.key] = metric.valuesTransform
             ? metric.valuesTransform(extracted)
             : extracted;
         });
@@ -33,7 +47,7 @@ export function buildCharts(dataMap, chartConfigs) {
     });
 
     const sortedSeries = Object.values(series).sort(
-      (a, b) => new Date(a.x) - new Date(b.x),
+      (a, b) => new Date(a.x) - new Date(b.x)
     );
 
     metricCharts.push(

@@ -35,7 +35,6 @@ export const sections = {
         key: "baseline_hr",
         name: "Baseline Sleep Need",
         extractor: (record) => record.score?.sleep_needed?.baseline_milli,
-        transformForCustom: true,
         valuesTransform: (value) => value / 1000 / 60 / 60,
       },
       sleep_performance_pct: {
@@ -121,6 +120,11 @@ export const sections = {
         name: "Respiratory Rate",
         extractor: (record) => record.score?.respiratory_rate,
       },
+      nap: {
+        key: "nap",
+        name: "Nap",
+        extractor: (record) => record.nap,
+      }
     },
   },
   Recovery: {
@@ -184,7 +188,6 @@ export const sections = {
         key: "distance_km",
         name: "Distance Kilometers",
         extractor: (record) => record.score?.distance_meter,
-        transformForCustom: true,
         valuesTransform: (value) => value / 1000 || 0,
         props: {
           symbol: " km",
@@ -194,7 +197,6 @@ export const sections = {
         key: "altitude_gain_meter",
         name: "Altitude Gain Meters",
         extractor: (record) => record.score?.altitude_gain_meter,
-        transformForCustom: true,
         valuesTransform: (value) => value || 0,
       },
       avg_heart_rate: {

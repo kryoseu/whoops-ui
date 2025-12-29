@@ -9,8 +9,6 @@ export default function BiaxialLineChart({ data, chartSettings }) {
     return <NoData message="Invalid chart config. Expected two data series." />;
   }
 
-  console.log(data);
-
   const [leftKey, rightKey] = keys;
 
   return (

@@ -94,6 +94,13 @@
       metrics:
         Sleep:
           - key: respiratory_rate
+    - id: "209"
+      type: single
+      metrics:
+        Sleep:
+          - key: nap
+      settings:
+        includeNaps: true
 - id: "003"
   name: Recovery
   charts:

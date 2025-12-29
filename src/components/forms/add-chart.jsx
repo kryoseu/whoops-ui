@@ -16,10 +16,10 @@ export default function AddChartForm({ onSave }) {
     checkedMetrics,
     disabledMetrics,
     yAxis,
+    settings,
     handleChartTypeChange,
     handleMetricsChange,
-    handleYAxisChange,
-    handleYAxisToggle,
+    handleSettingsChange,
     handleSave,
   } = useAddChartFormControl(onSave);
 
@@ -38,13 +38,15 @@ export default function AddChartForm({ onSave }) {
         options={allMetrics}
         value={checkedMetrics}
         disabledKeys={disabledMetrics}
+        settings={settings}
         onChange={handleMetricsChange}
+        onSettingsChange={handleSettingsChange}
       />
 
       <YAxisConfigurator
         yAxis={yAxis}
-        onChange={handleYAxisChange}
-        onToggle={handleYAxisToggle}
+        settings={settings}
+        onChange={handleSettingsChange}
         disableFields={userChartType === "pie"}
       />
 

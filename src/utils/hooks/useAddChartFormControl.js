@@ -10,9 +10,17 @@ export function useAddChartFormControl(onSave) {
   const [pieChartAggType, setPieChartAggType] = useState("sum");
   const [checkedMetrics, setCheckedMetrics] = useState([]);
   const [disabledMetrics, setDisabledMetrics] = useState([]);
-  const [yAxis, setYAxis] = useState({
-    left: { max: "", unit: "", disabled: false },
-    right: { max: "", unit: "", disabled: false },
+
+  const [settings, setSettings] = useState({
+    includeNaps: false,
+
+    leftYAxisMax: "",
+    leftYAxisUnit: "",
+    leftYAxisDisabled: false,
+
+    rightYAxisMax: "",
+    rightYAxisUnit: "",
+    rightYAxisDisabled: false,
   });
 
   const { setUnsavedCustomCharts, setChartConfigs } = useContext(
@@ -43,7 +51,14 @@ export function useAddChartFormControl(onSave) {
 
   // Handle metric selection
   const handleMetricsChange = (values) => {
-    let selected = values;
+    const napSelected = values.some(
+      (metric) => metric.key === "nap"
+    );
+
+    setSettings((prev) => ({
+      ...prev,
+      includeNaps: napSelected,
+    }));
 
     const limit =
       userChartType === "single"
@@ -52,7 +67,7 @@ export function useAddChartFormControl(onSave) {
           ? 2
           : values.length;
 
-    selected = values.slice(0, limit);
+    const selected = values.slice(0, limit);
 
     let disabled = [];
     if (userChartType === "single" && selected.length === 1) {
@@ -69,18 +84,11 @@ export function useAddChartFormControl(onSave) {
     setDisabledMetrics(disabled);
   };
 
-  // Y-axis handlers
-  const handleYAxisChange = (axis, field) => (e) => {
-    setYAxis((prev) => ({
+  // Settings handlers
+  const handleSettingsChange = (setting, value) => {
+    setSettings((prev) => ({
       ...prev,
-      [axis]: { ...prev[axis], [field]: e.target.value },
-    }));
-  };
-
-  const handleYAxisToggle = (axis) => (e) => {
-    setYAxis((prev) => ({
-      ...prev,
-      [axis]: { ...prev[axis], disabled: e.target.checked },
+      [setting]: value,
     }));
   };
 
@@ -101,7 +109,7 @@ export function useAddChartFormControl(onSave) {
     const chartConfig = buildChartConfig(
       userChartType,
       metricMap,
-      yAxis,
+      settings,
       userChartType === "pie" ? pieChartAggType : null,
     );
 
@@ -123,15 +131,14 @@ export function useAddChartFormControl(onSave) {
     setPieChartAggType,
     checkedMetrics,
     disabledMetrics,
-    yAxis,
+    settings,
 
     allMetrics,
     metricAPISet,
 
     handleChartTypeChange,
     handleMetricsChange,
-    handleYAxisChange,
-    handleYAxisToggle,
+    handleSettingsChange,
 
     handleSave,
   };
@@ -152,18 +159,11 @@ function buildChartConfig(type, metrics, settings, aggregation) {
     type,
     metrics,
     settings: {
-      ...(settings.left.max !== "" && { leftYAxisMax: settings.left.max }),
-      ...(settings.left.unit !== "" && { leftYAxisUnit: settings.left.unit }),
-      ...(settings.right.max !== "" && { rightYAxisMax: settings.right.max }),
-      ...(settings.right.unit !== "" && {
-        rightYAxisUnit: settings.right.unit,
-      }),
-      ...(settings.left.disabled && {
-        leftYAxisDisabled: settings.left.disabled,
-      }),
-      ...(settings.right.disabled && {
-        rightYAxisDisabled: settings.right.disabled,
-      }),
+      ...Object.fromEntries(
+        Object.entries(settings).filter(
+          ([_, value]) => value !== "" && value !== false
+        )
+      ),
       ...(type === "pie" && aggregation && { aggregation }),
     },
   };
