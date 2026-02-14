@@ -2,6 +2,8 @@
 [![React](https://img.shields.io/badge/react-19.2.0-blue?style=flat-square)](https://reactjs.org/)
 [![Next.js](https://img.shields.io/badge/next-16.0.3-black?style=flat-square)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg)](LICENSE)
+[![](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Ko--fi-red?style=flat-square)](https://ko-fi.com/kryoseu)
+
 
 
 # Whoops-UI
@@ -96,6 +98,13 @@ pnpm start
 3. See your metrics, create your charts and dashboards!
 
 
+## Support This Project ☕️
+
+If you like **Whoops-UI** and want to help keep it improving, you can support me via:
+
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Ko--fi-red?style=flat-square)](https://ko-fi.com/kryoseu)
+
+Thank you for your support! 💛
 
 
 
