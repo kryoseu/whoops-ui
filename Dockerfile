@@ -40,12 +40,13 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-COPY --from=builder --chown=1000:1000 /app/public ./public
-COPY --from=builder --chown=1000:1000 /app/.next/standalone ./
-COPY --from=builder --chown=1000:1000 /app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /app/.next/standalone ./
+COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /app/public ./public
 
-USER root
+RUN chown -R node:node /app
+
+USER node
 
 EXPOSE 3000
-
 CMD ["node", "server.js"]
